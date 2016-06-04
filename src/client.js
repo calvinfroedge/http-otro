@@ -18,7 +18,7 @@ export default function(defaults={}){
     return qs.length ? [resource, qs].join('?') : resource;
   }
 
-  const request = (resource, method, body={}, headers={})=>{
+  const request = (resource, method, body={}, options={})=>{
     method = method.toUpperCase();
 
     let args = {
@@ -26,8 +26,23 @@ export default function(defaults={}){
       headers: {}
     };
 
-    for(var key in headers.headers){
-      args.headers[key] = headers.headers[key];
+    //Options & defaults
+    for(var key in defaults){
+      if(key != 'headers'){
+        args[key] = defaults[key];
+      }
+    }
+
+    for(var key in options){
+      if(key != 'headers'){
+        args[key] = options[key];
+      }
+    }
+
+    // end Options & defaults
+
+    for(var key in options.headers){
+      args.headers[key] = options.headers[key];
     }
 
     for(var key in defaults.headers){
@@ -43,22 +58,22 @@ export default function(defaults={}){
     return fetch(host + resource, args);
   }
 
-  const get = (resource, params={}, headers={})=>{
+  const get = (resource, params={}, options={})=>{
     let qs = query(params);
-    return request(queryURL(resource, qs), 'GET', {}, headers);
+    return request(queryURL(resource, qs), 'GET', {}, options);
   }
 
-  const put = (resource, body={}, headers={})=>{
-    return request(resource, 'PUT', body, headers);
+  const put = (resource, body={}, options={})=>{
+    return request(resource, 'PUT', body, options);
   }
 
-  const post = (resource, body={}, headers={})=>{
-    return request(resource, 'POST', body, headers);
+  const post = (resource, body={}, options={})=>{
+    return request(resource, 'POST', body, options);
   }
 
-  const del = (resource, params={}, headers={})=>{
+  const del = (resource, params={}, options={})=>{
     let qs = query(params);
-    return request(queryURL(resource, qs), 'DELETE', {}, headers);
+    return request(queryURL(resource, qs), 'DELETE', {}, options);
   }
 
   return { request, get, put, post, del };
