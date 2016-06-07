@@ -76,5 +76,5 @@ export default function(defaults={}){
     return request(queryURL(resource, qs), 'DELETE', {}, options);
   }
 
-  return { request, get, put, post, del };
+  return { request, get, put, post, del, fetch };
 }
