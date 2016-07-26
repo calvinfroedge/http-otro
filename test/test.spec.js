@@ -58,4 +58,12 @@ describe('Requests should be configured as expected', ()=>{
       done();
     });
   });
+
+  it('Should allow us to change defaults dynamically, affecting headers', (done)=>{
+    let c = client({host: url});
+    expect(JSON.stringify(c.defaults.headers)).toBe("{}");
+    c.defaults.headers['foo'] = 'bar';
+    expect(c.defaults.headers.foo).toBe('bar');
+    done();
+  });
 })

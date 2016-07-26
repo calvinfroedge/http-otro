@@ -1,6 +1,12 @@
 import fetch from 'isomorphic-fetch'
 
 export default function(defaults={}){
+  var context = {};
+
+  if(!defaults.headers) defaults.headers = {};
+
+  context.defaults = defaults;
+
   let host = defaults.host || '';
 
   const query = (params)=>{
@@ -18,7 +24,7 @@ export default function(defaults={}){
     return qs.length ? [resource, qs].join('?') : resource;
   }
 
-  const request = (resource, method, body={}, options={})=>{
+  context.request = (resource, method, body={}, options={})=>{
     method = method.toUpperCase();
 
     let args = {
@@ -27,7 +33,7 @@ export default function(defaults={}){
     };
 
     //Options & defaults
-    for(var key in defaults){
+    for(var key in context.defaults){
       if(key != 'headers'){
         args[key] = defaults[key];
       }
@@ -45,7 +51,7 @@ export default function(defaults={}){
       args.headers[key] = options.headers[key];
     }
 
-    for(var key in defaults.headers){
+    for(var key in context.defaults.headers){
       args.headers[key] = defaults.headers[key];
     }
 
@@ -58,23 +64,23 @@ export default function(defaults={}){
     return fetch(host + resource, args);
   }
 
-  const get = (resource, params={}, options={})=>{
+  context.get = (resource, params={}, options={})=>{
     let qs = query(params);
-    return request(queryURL(resource, qs), 'GET', {}, options);
+    return context.request(queryURL(resource, qs), 'GET', {}, options);
   }
 
-  const put = (resource, body={}, options={})=>{
-    return request(resource, 'PUT', body, options);
+  context.put = (resource, body={}, options={})=>{
+    return context.request(resource, 'PUT', body, options);
   }
 
-  const post = (resource, body={}, options={})=>{
-    return request(resource, 'POST', body, options);
+  context.post = (resource, body={}, options={})=>{
+    return context.request(resource, 'POST', body, options);
   }
 
-  const del = (resource, params={}, options={})=>{
+  context.del = (resource, params={}, options={})=>{
     let qs = query(params);
-    return request(queryURL(resource, qs), 'DELETE', {}, options);
+    return context.request(queryURL(resource, qs), 'DELETE', {}, options);
   }
 
-  return { request, get, put, post, del, fetch };
+  return context;
 }
