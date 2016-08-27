@@ -55,7 +55,7 @@ export default function(defaults={}){
       args.headers[key] = defaults.headers[key];
     }
 
-    if(!args.headers['Content-Type']){
+    if(!args.headers['Content-Type'] && args.headers['Content-Type'] !== false){
       args.headers['Content-Type'] = 'application/json';
     }
 
