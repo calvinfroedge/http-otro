@@ -69,13 +69,13 @@ export default function(defaults={}){
     return context.request(queryURL(resource, qs), 'GET', {}, options);
   }
 
-  context.put = (resource, body={}, options={})=>{
-    return context.request(resource, 'PUT', body, options);
+  const updateMethod = (method)=>{
+    context[method] = (resource, body={}, options={})=>{
+      return context.request(resource, method.toUpperCase(), body, options);
+    }
   }
 
-  context.post = (resource, body={}, options={})=>{
-    return context.request(resource, 'POST', body, options);
-  }
+  ['put', 'patch', 'post'].forEach(item => updateMethod(item));
 
   context.del = (resource, params={}, options={})=>{
     let qs = query(params);
