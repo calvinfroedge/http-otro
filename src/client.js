@@ -1,5 +1,14 @@
 import fetch from 'isomorphic-fetch'
 
+export function queryURL(resource, qs){
+  if(!qs.length) return resource;
+
+  let joinWith = '?';
+  if(resource.indexOf('?') > -1) joinWith = '&';
+
+  return qs.length ? [resource, qs].join(joinWith) : resource;
+}
+
 export default function(defaults={}){
   var context = {};
 
@@ -18,10 +27,6 @@ export default function(defaults={}){
     }
 
     return (arr.length > 0) ? arr.join('&') : '';
-  }
-
-  const queryURL = (resource, qs)=>{
-    return qs.length ? [resource, qs].join('?') : resource;
   }
 
   context.request = (resource, method, body={}, options={})=>{

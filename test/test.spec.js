@@ -1,6 +1,19 @@
 import expect from 'expect'
 import { client, response } from '../src'
+import { queryURL } from '../src/client'
 import testServer from '../test-server'
+
+describe('URLs should be formed as expected', ()=>{
+  it('Should handle adding query string correctly', ()=>{
+    var qs = 'a=1&b=2';
+
+    var url = 'http://foo.com/bar?baz=bop';
+    expect(queryURL(url, qs)).toBe(url+'&'+qs);
+
+    var url2 = 'http://foo.com';
+    expect(queryURL(url2, qs)).toBe(url2+'?'+qs);
+  });
+});
 
 describe('Requests should be configured as expected', ()=>{
   let app;
@@ -66,4 +79,4 @@ describe('Requests should be configured as expected', ()=>{
     expect(c.defaults.headers.foo).toBe('bar');
     done();
   });
-})
+});
