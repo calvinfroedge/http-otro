@@ -51,7 +51,6 @@ export default function(defaults={}){
     }
 
     // end Options & defaults
-
     for(var key in options.headers){
       args.headers[key] = options.headers[key];
     }
@@ -65,6 +64,12 @@ export default function(defaults={}){
     }
 
     if(method != 'GET') args.body = typeof(body) == 'object' ? JSON.stringify(body) : body;
+
+    if(context.defaults.transforms && context.defaults.transforms.forEach){
+      context.defaults.transforms.forEach((t)=>{
+        args = t(args);
+      });
+    }
 
     return fetch(host + resource, args);
   }

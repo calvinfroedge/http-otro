@@ -46,6 +46,19 @@ Turns `params` into a query string.
 
 ## del(resource, body={}, headers={})
 
+# Transforms
+
+Transforms are a simple way to modify request args before a request is dispatched. Example:
+
+```
+client({transforms: [
+  (args)=>{
+    args.headers.authorization = localStorage.getItem('jwt')
+    return args
+  }]
+})
+```
+
 # Response Handling API
 
 ## json(request)

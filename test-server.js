@@ -6,6 +6,10 @@ let app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+let echoHeaders = (req, res)=>{
+  res.json(req.headers);
+}
+
 let echoBody = (req, res)=>{
   res.json(req.body);
 }
@@ -27,6 +31,8 @@ export default function(){
     app.delete('/test', echoQs);
 
     app.get('/test', echoQs);
+
+    app.get('/headers', echoHeaders);
 
     app.listen(process.env.PORT || 3000, ()=>{
       console.log('server listening');

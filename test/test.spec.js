@@ -79,4 +79,18 @@ describe('Requests should be configured as expected', ()=>{
     expect(c.defaults.headers.foo).toBe('bar');
     done();
   });
+
+  it('Should allow us to change headers with a transform', (done)=>{
+    let c = client({host: url, transforms: [
+      (args)=>{
+        args.headers.authorization = 'test';
+        return args;
+      }
+    ]});
+
+    response.json(c.get('/headers')).then((data)=>{
+      expect(data.authorization).toBe('test');
+      done();
+    });
+  });
 });
