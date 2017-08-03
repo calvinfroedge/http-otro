@@ -1,6 +1,6 @@
 # http-otro
 
-A configuration lib and caller for [isomorphic-fetch](https://github.com/matthew-andrews/isomorphic-fetch):
+Easy http requests built on [isomorphic-fetch](https://github.com/matthew-andrews/isomorphic-fetch):
 
 ```
 client({
