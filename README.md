@@ -3,8 +3,6 @@
 A configuration lib and caller for [isomorphic-fetch](https://github.com/matthew-andrews/isomorphic-fetch):
 
 ```
-import { fetch } from 'isomorphic-fetch'
-
 client({host: 'myhost', headers: {'Authorization': 'Bearer SomeToken'}}).get('/foo', {bar: 'baz'}) // Requests GET /foo?bar=baz
 .then((res)=>{
   //deal with response
